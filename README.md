@@ -7,4 +7,4 @@
 2. If the segment represents a file, open its containing folder in the Finder and select that file.
 
 ### Usage
-In your xib, drag out an NSPathControl, click on the Identity inspector, and set the control's class to `JWSPathControl`. That's it!
+In your xib, drag out an `NSPathControl`, click on the Identity inspector, and set the control's class to `JWSPathControl`. That's it!
