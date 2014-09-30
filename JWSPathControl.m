@@ -32,20 +32,28 @@
 
 -(void)showClickedSegmentPath
 {
-    {
-        NSWorkspace  *workspace = [NSWorkspace sharedWorkspace];
-        NSURL        *clickedURL = [self.clickedPathComponentCell URL];
+    NSWorkspace  *workspace = [NSWorkspace sharedWorkspace];
+    NSURL        *clickedURL = [self.clickedPathComponentCell URL];
+    BOOL         urlIsDirectory;
+    
+    NSUInteger   keyFlags = [NSEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+    
+    [[NSFileManager defaultManager] fileExistsAtPath:[clickedURL path]
+                                         isDirectory:&urlIsDirectory];
+    
+    if (keyFlags == NSCommandKeyMask ) {
+        [workspace activateFileViewerSelectingURLs:@[clickedURL]];
         
-        BOOL urlIsDirectory;
+        return;
+    }
+    
+    if (urlIsDirectory) {
+        [workspace openURL:clickedURL];
         
-        [[NSFileManager defaultManager] fileExistsAtPath:clickedURL.path
-                                             isDirectory:&urlIsDirectory];
-        
-        if (urlIsDirectory) {
-            [workspace openURL:clickedURL];
-        } else {
-            [workspace activateFileViewerSelectingURLs:@[clickedURL]];
-        }
+        return;
+    }
+    
+    [workspace activateFileViewerSelectingURLs:@[clickedURL]];
 }
 
 @end
